@@ -5,7 +5,9 @@ The follow collection contains samples of R scripts written for scientific proje
 ## Table of Contents
 
 ### Species abundance through time
-The goal of this project was to estimate the neutral ecological parameter theta (Hubbel 2001) for all collections of marine invertbrate fossils in the Paleobiology Database. This work was a part of a larger effort to evaluate whether fossil data fit ecological expectations under neutal theory. 
+The goal of this project was to estimate the neutral ecological parameter theta (Hubbel 2001) for all collections of marine invertebrate fossils in the Paleobiology Database. This work was a part of a larger effort to evaluate whether changes in abundance distributions through geologic time can be explained by neutral ecological theory. Methodologically, this work involved separating a large database download into multiple smaller dataframes that could be printed to text files for manipulation outside of R.
+
+### Ecological similiarity 
 
 
 ## Welcome to GitHub Pages
