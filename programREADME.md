@@ -1,3 +1,4 @@
+## README
 This folder contains all of the files needed to run superautomaticPARI.sh, a program that estimates Hubble's theta for abundance data downloaded from the PaleobioDB. 
 
 last updated: Sept 9, 2021
@@ -8,10 +9,11 @@ Contents of this readme:
 I. description of files in this folder 
 II. protocol for running superautomaticPARI.sh
 
+	***NOTE BEFORE RUNNING ANALYSIS*** This is set up to run all taxonomic classes and orders designated as suspension feeders. To analyze a different trophic level, the function RemoveNonSuspensionFeeders that is in the R script will need to be adjusted. 
 
+ UPDATE (Sept 2021): this code was created under the old PBDB download column naming system. Column names are now slightly different and the code has been updated to reflect this.
 
-#########################################
-I. Files in this folder:
+### I. Files in this folder:
 1.  PaleobioDBtoCSV.r - an R script that culls a large PaleobioDB download file to remove taxa that are not-suspension feeders and collections that contain non-numeric abundance data, transforms the culled data into an abundance matrix, and then, splits the abundance matrix by grouping collections by reference number, 10 million year time bin, and depositional environment. The outputs of this are script are: 
 	1. culledPBDB.csv - the culled version of the input matrix
 	2. Abundances.csv - an abundance matrix containing all downloaded data
@@ -20,8 +22,7 @@ I. Files in this folder:
 		file names for these matrices are formatted: "ReferenceNumber_10myAgeBin_environment"
 		NA at the end of some file names is a meaningless artifact of correcting for spacing and punctuation in depositional environment data
 		
-	UPDATE (Sept 2021): this code was created under the old PBDB download column naming system. Column names are now slightly different and the code has been updated to reflect this.
-	***NOTE BEFORE RUNNING ANALYSIS*** This is set up to run all taxonomic classes and orders designated as suspension feeders. To analyze a different trophic level, the function RemoveNonSuspensionFeeders that is in the R script will need to be adjusted. 
+	
 	
 As written, this program will run any PBDB download file with abundance data, time bins, and environment fields. For the program to run correctly, the name of the file should be  pbdbdata-occs.csv and the column names should be unaltered from those output by the Paleobiology Database download screen. Data should be downloaded without comments (or comment columns should be removed in Excel because punctuation in the comments can offset the column alignment in the .csv file. 
 	
