@@ -1,5 +1,5 @@
 ## README
-This folder contains all of the files needed to run superautomaticPARI.sh, a program that estimates Hubble's theta for abundance data downloaded from the PaleobioDB. 
+This folder contains all of the files needed to run superautomaticPARI.sh, a program that estimates Hubble's theta for abundance data downloaded from the Paleobiology Database (PBDB). 
 
 last updated: Sept 9, 2021
 created: Aug 29, 2014
