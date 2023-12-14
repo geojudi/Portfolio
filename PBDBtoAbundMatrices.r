@@ -4,15 +4,19 @@
 
 # This script will generate a abundance matrix containing data for all collections in a Paleobiology Databse (PBDB) download file. It will then split that matrix into separate .csv files each containing the abundance data for only one collection.
 
-# requirements: The download file must contain the abundance, time bins, and environment fields as collections are split by collection number, time, and environment. For the program to run correctly, the name of the file should be  pbdbdata-occs.csv and the column names should be unaltered from those output by the PBDB. Data should be downloaded without comments or comment columns should be removed in Excel because punctuation in the comments can offset the column alignment in the .csv file. 
+# Requirements: The download file must contain the abundance, time bins, and environment fields as collections are split by collection number, time, and environment. For the program to run correctly, the name of the file should be  pbdbdata-occs.csv and the column names should be unaltered from those output by the PBDB. Data should be downloaded without comments or comment columns should be removed in Excel because punctuation in the comments can offset the column alignment in the .csv file. 
 
-# recommendation: create a new folder to contain the output .csv files and set that as the working directory. A large input file typically contains hundreds of collections. Dedicating a clean folder for the outputs best facilitates organization for future analyses.
+# Input: a .csv file downloaded from the PBDB. The file name is set as pbdbdata-occs.csv. If a different file name is used, change it here
+InputFile <- 'pbdbdata-occs.csv'
 
-# input: a .csv file downloaded from the PBDB. This file should be named pbdbdata-occs.csv
+# Outputs: multiple .csv files
+####### 1. an abundance matrix for each collection in the input file. The number of output files is determined by number of collections in the downloaded file and the number of time bins and depositional environments in each unique collection.
+####### 2. a .csv containing collection context information
 
-# output: multiple .csv files, an abundance matrix for each collection in the inpur file. The number of output files is determined by number of collections in downloaded file and the number of time bins and depositional environments in each unique collection
+# Recommendation: create a new folder to contain the output .csv files and set that as the working directory. A large input file typically contains hundreds of collections. Dedicating a folder to contain the output files best facilitates organization for future analyses. Place the input file in this folder and set the working directory here
+setwd('AbundMatrices')
 
-#### NOTE BEFORE RUNNING ANALYSIS: This is set up to run all taxonomic classes and orders designated as suspension feeders. To analyze a different trophic level, the function RemoveNonSuspensionFeeders will need to be adjusted. 
+#### NOTE BEFORE RUNNING ANALYSIS: This is set up to run all taxonomic classes and orders designated as suspension feeders to fulfill the single trophic level requirements of neutral theory. To analyze a different trophic level, the function RemoveNonSuspensionFeeders will need to be adjusted. 
 
 ###############################################################################################################################
 # last updated: Sept 9, 2021
@@ -28,7 +32,6 @@
 ###############################################################################################################################
 
 # Remove taxa that are not classified as suspension feeders from the download
-
 RemoveNonSuspensionFeeders <- function(pbdbData) {
 	ClassesAllowed <- c("Scaphopoda", "Anthozoa", "Echinoidea", "Bivalvia", "Hyolitha", "Hyolithomorpha", "Orthothecimorpha", "Rostroconchia", "Lingulata", "Paterinata", "Chileata", "Kutorginata", "Obolellata", "Rhynchonellata", "Strophomenata", "Archaeocyatha", "Irregulares", "Regulares", "Calcarea", "Demospongea", "Heteractinida", "Hexactinellida", "Stromatoperoidea", "Gymnolaemata", "Stenolaemata", "Blastoidea")
     
@@ -48,7 +51,6 @@ RemoveNonSuspensionFeeders <- function(pbdbData) {
 }
 
 # Generate a matrix of abundance values from a PBDB download. Formats matrix with genera as columns and collections as rows
-
 GenerateAbundanceMatrix <- function(pbdbData){
 	UniqueCollections <- as.vector(unique(pbdbData$collection_no))
 	UniqueGenera <- as.vector(unique(pbdbData$genus))
@@ -71,7 +73,6 @@ GenerateAbundanceMatrix <- function(pbdbData){
 #################################################################################################################################
 
 # read in data
-InputFile <- 'pbdbdata-occs.csv'
 pbdbData <- read.csv(file=InputFile, as.is=TRUE)
 
 ########################## Perform data quality culling procedures ####################################
@@ -82,8 +83,7 @@ pbdbData <- pbdbData[which(as.vector(pbdbData$environment)!=""), ]
 # remove taxa that are not in the list of suspension feeders
 pbdbData <- RemoveNonSuspensionFeeders(pbdbData)
 
-## remove collections with problematic abundance values
-
+##### remove collections with problematic abundance values
 # first identify values that contain non-numeric characters
 unallowableValues <- unique(pbdbData$abund_value)[grep('[^0-9]', unique(pbdbData$abund_value))]
 
@@ -153,35 +153,24 @@ colnames(CollectionInfo) <- c("collectionNo", "age", "paleolat", "paleolong", "e
 # make sure the collection info and abundance matrices contain the same collections
 CollectionInfo <- CollectionInfo[which(CollectionInfo$collectionNo %in% rownames(AbundanceMatrix)), ]
 CollectionInfo <- droplevels(CollectionInfo)
+
+# Save collection context info data frame for later use
+write.csv(CollectionInfo, file='CollectionInfo.csv')
 #######################################################################################################
 
-##################### Save generated data objects for use outside of R ################################
-# Write culled paleobiodb data, abundance matrix, collection info matrix
-
-write.csv(pbdbData, file='culledPBDB.csv')
-write.csv(AbundanceMatrix, file="Abundances.csv")
-write.csv(CollectionInfo, file='CollectionInfo.csv')
-
-
-### MAKE .CSV FILES OF ABUNDANCE DATA
-## these files serve as the data input for running automaticPARI.sh in bash
-## Data is organized as collections and are split by reference number first
-## reference numbers with collections from more than one age or depositional environment are then split accordingly
-
-# set working directory to a previously created folder to contain the .csv files
-setwd('AbundMatrices')
+########################## Build .CSV FILES OF ABUNDANCE DATA #########################################
+###### These files serve as the data input for running the PARI/GP theta estimation program 
+#### Data is organized as collections and are split by reference number first
+#### Reference numbers with collections from more than one age or depositional environment are then split accordingly
 
 # split the collection data by reference number
 splitRefNo <- split(CollectionInfo, CollectionInfo$ReferenceNo)
 
-## this is to identify the names of environments that have characters that aren't allowed in file names
-# generally these characters are punctuation
-# these problems are corrected within the for loop
+# Identify the names of environments that have characters that aren't allowed in file names, generally punctuation
 probEnvir <- as.vector(unique(CollectionInfo$environment)[grep('[[:punct:]]', unique(CollectionInfo$environment))])
+# These problems will be corrected in the for loop
 
-
-## this loop makes the .csv files
-
+################ Make the .csv files ################
 # loop through each reference number 
 for (i in 1:length(splitRefNo)){
     RefNo <- names(splitRefNo)[i]
@@ -201,7 +190,7 @@ for (i in 1:length(splitRefNo)){
         ageIndex <- which(rownames(matrix) %in% collecAge)
         ageData <- matrix[ageIndex, which(colSums(matrix[ageIndex, , drop=FALSE])!=0), drop=FALSE]
 
-        # determine number of depositional environments samples within age bin are from
+        # determine number of depositional environments samples within age bin
         ageEnvir <- as.vector(unique(splitRefNo[[i]]$environment[ageIndex]))
 			
         # for each depositional environment within a time bin
@@ -234,4 +223,3 @@ for (i in 1:length(splitRefNo)){
         }
     }
 }	
-
