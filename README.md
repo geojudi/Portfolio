@@ -1,3 +1,13 @@
+# Judith A. Sclafani - Portfolio
+
+The follow collection contains samples of R scripts written for scientific projects. Examples have been selected to showcase my statistical and data processing capabilities.
+
+## Table of Contents
+
+### Species abundance through time
+The goal of this project was to estimate the neutral ecological parameter theta (Hubbel 2001) for all collections of marine invertbrate fossils in the Paleobiology Database. This work was a part of a larger effort to evaluate whether fossil data fit ecological expectations under neutal theory. 
+
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/geojudi/geojudi.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
