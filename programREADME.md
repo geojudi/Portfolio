@@ -3,6 +3,7 @@ This folder contains all of the files needed to run superautomaticPARI.sh, a pro
 
 As written, this program will run any PBDB download file with abundance data, time bins, and environment fields. For the program to run correctly, the name of the file should be  pbdbdata-occs.csv and the column names should be unaltered from those output by the Paleobiology Database download screen. Data should be downloaded without comments (or comment columns should be removed in Excel because punctuation in the comments can offset the column alignment in the .csv file. 
 
+[!IMPORTANT] 
 **NOTE BEFORE RUNNING ANALYSIS:** This is set up to run all taxonomic classes and orders designated as suspension feeders. To analyze a different trophic level, the function RemoveNonSuspensionFeeders that is in the R script will need to be adjusted. 
 
 **last updated: Sept 9, 2021**
