@@ -13,6 +13,7 @@ I needed to automate the analysis of thousands of fossil collections throughout 
 Included here is the R script to perform the first part of this workflow, from culling the database download to writing the abundance matrices [PBDBtoAbundMatrices.r](/PBDBtoAbundMatrices.r)
 
 
-## Evolutionary, Ecological, and Morphological similiarity 
+## Evolutionary, ecological, and morphological similiarity 
+### **SKILLS:** statistical analysis, ggplot
 
 
