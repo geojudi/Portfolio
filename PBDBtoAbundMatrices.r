@@ -1,6 +1,6 @@
-##################################################################################################################################
-############################### CONVERT PALEOBIOLOGY DATABASE DOWNLOAD TO ABUNDANCE MATRICES #####################################
-##################################################################################################################################
+#####################################################################################################################################
+###########################     CONVERT PALEOBIOLOGY DATABASE DOWNLOAD TO ABUNDANCE MATRICES     ####################################
+#####################################################################################################################################
 
 # This script will generate a abundance matrix containing data for all collections in a Paleobiology Databse (PBDB) download file. It will then split that matrix into separate .csv files each containing the abundance data for only one collection.
 
@@ -18,18 +18,18 @@ setwd('AbundMatrices')
 
 #### NOTE BEFORE RUNNING ANALYSIS: This is set up to run all taxonomic classes and orders designated as suspension feeders to fulfill the single trophic level requirements of neutral theory. To analyze a different trophic level, the function RemoveNonSuspensionFeeders will need to be adjusted. 
 
-###############################################################################################################################
+#####################################################################################################################################
 # last updated: Sept 9, 2021
 
 # UPDATE (Sept 2021): this code was created under the old PBDB download column naming system. Column names are now slightly different, and the code has been updated to reflect this.
 
 # created: Aug 29, 2014 by Judith Sclafani
-###############################################################################################################################
+#####################################################################################################################################
 
 
-###############################################################################################################################
-################################################### NECESSARY FUNCTIONS #######################################################
-###############################################################################################################################
+#####################################################################################################################################
+##############################################     NECESSARY FUNCTIONS     ##########################################################
+#####################################################################################################################################
 
 # Remove taxa that are not classified as suspension feeders from the download
 RemoveNonSuspensionFeeders <- function(pbdbData) {
@@ -65,17 +65,17 @@ GenerateAbundanceMatrix <- function(pbdbData){
 	}
 		Abundances
 }
-#################################################################################################################################
+#####################################################################################################################################
 
 
-#################################################################################################################################
-######################################## PERFORM ABUNDANCE MATRIX TRANSFORMATIONS ###############################################
-#################################################################################################################################
+#####################################################################################################################################
+#####################################    PERFORM ABUNDANCE MATRIX TRANSFORMATIONS    ################################################
+#####################################################################################################################################
 
 # read in data
 pbdbData <- read.csv(file=InputFile, as.is=TRUE)
 
-########################## Perform data quality culling procedures ####################################
+#####################  Perform data quality culling procedures  ########################
 # remove any data that does not have an associated time bin or environment
 pbdbData <- pbdbData[which(as.vector(pbdbData$time_bin)!=""), ]
 pbdbData <- pbdbData[which(as.vector(pbdbData$environment)!=""), ]
@@ -93,14 +93,14 @@ collectionstoRemove <- pbdbData$collection_no[which(pbdbData$abund_value %in% un
 # remove an entire collection if it contains any non-numeric abundance values
 indices <- which(pbdbData$collection_no %in% collectionstoRemove)
 pbdbData <- pbdbData[-indices, ]
-#######################################################################################################
+########################################################################################
 
-######################### Transform data download to abundance matrix #################################
+#####################  Transform data download to abundance matrix  ####################
 AbundanceMatrix <- GenerateAbundanceMatrix(pbdbData)
 collectionSize <- rowSums(AbundanceMatrix)
-#######################################################################################################
+########################################################################################
 
-######################### Statistical culling #########################################################
+#############################  Statistical culling  ####################################
 # Include only collections of sizes larger than 5. This determination was based on the summary statistics. 
 indices <- which(collectionSize > 5)
 AbundanceMatrix <- AbundanceMatrix[indices, ] 
@@ -115,9 +115,9 @@ AbundanceMatrix <- AbundanceMatrix[indices, ]
 
 # remove any genera that, after the collection culling, have an abundance of zero 
 AbundanceMatrix <- AbundanceMatrix[ ,which(colSums(AbundanceMatrix)!=0)]
-#######################################################################################################
+########################################################################################
 
-######################### Build collection context info data table ####################################
+#################  Build collection context info data table  ###########################
 # make a list of unique collections
 collections <- unique(pbdbData$collection_no)
 
@@ -156,9 +156,9 @@ CollectionInfo <- droplevels(CollectionInfo)
 
 # Save collection context info data frame for later use
 write.csv(CollectionInfo, file='CollectionInfo.csv')
-#######################################################################################################
+########################################################################################
 
-########################## Build .CSV FILES OF ABUNDANCE DATA #########################################
+####################  Build .csv files of abundance data  ##############################
 ###### These files serve as the data input for running the PARI/GP theta estimation program 
 #### Data is organized as collections and are split by reference number first
 #### Reference numbers with collections from more than one age or depositional environment are then split accordingly
@@ -170,7 +170,7 @@ splitRefNo <- split(CollectionInfo, CollectionInfo$ReferenceNo)
 probEnvir <- as.vector(unique(CollectionInfo$environment)[grep('[[:punct:]]', unique(CollectionInfo$environment))])
 # These problems will be corrected in the for loop
 
-################ Make the .csv files ################
+### Make the .csv files 
 # loop through each reference number 
 for (i in 1:length(splitRefNo)){
     RefNo <- names(splitRefNo)[i]
