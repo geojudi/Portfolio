@@ -1,5 +1,5 @@
 # README
-This folder contains all of the files needed to run superautomaticPARI.sh, a program that estimates Hubble's theta (2001) for abundance data downloaded from the Paleobiology Database (PBDB). 
+This folder contains all of the files needed to run superautomaticPARI.sh, a program that estimates Hubble's theta (Hubble 2001) for abundance data downloaded from the Paleobiology Database (PBDB). 
 
 As written, this program will run any PBDB download file with abundance data, time bins, and environment fields. For the program to run correctly, the name of the file should be  pbdbdata-occs.csv and the column names should be unaltered from those output by the Paleobiology Database download screen. Data should be downloaded without comments (or comment columns should be removed in Excel because punctuation in the comments can offset the column alignment in the .csv file. 
 
