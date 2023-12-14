@@ -1,41 +1,30 @@
-###
-### PREPARE PALEOBIOLOGY DATABASE DATA SO THAT PARI CAN BE USED TO ESTIMATE THETA 
-# This code generates multiple abundance matrices from a large PaleoBioDB download file 
-# Data can span multiple time bins and environments
-#
-# input is a .csv file downloaded from the PaleoBioDB
-# output is multiple .csv files, each of which contains an abundance matrix 
-# number of output files is determined by number of references in downloaded file and the number of time bins and depositional environments in each unique reference
-#
-## Most recent update: Sept 2021
-#
-# 
+# Convert PALEOBIOLOGY DATABASE DOWNLOAD TO ABUNDANCE MATRICES
 
-args <- commandArgs(trailingOnly=TRUE)
-print(args)
+# This script will generate abundance matrices for all collections in a Paleobiology Databse (PBDB) download file. The download file must contain the abundance, time bins, and environment fields as collections are split by collection number, time, and environment. For the program to run correctly, the name of the file should be  pbdbdata-occs.csv and the column names should be unaltered from those output by the PBDB. Data should be downloaded without comments or comment columns should be removed in Excel because punctuation in the comments can offset the column alignment in the .csv file. 
 
-InputFile <- args[1]
+# input: a .csv file downloaded from the PBDB. This file should be named pbdbdata-occs.csv
 
-# set data file to read in data
-pbdbData <- read.csv(file=InputFile, as.is=TRUE)
+# output: multiple .csv files, each of which contains an abundance matrix. The number of output files is determined by number of collections in downloaded file and the number of time bins and depositional environments in each unique collection
+
+#### NOTE BEFORE RUNNING ANALYSIS: This is set up to run all taxonomic classes and orders designated as suspension feeders. To analyze a different trophic level, the function RemoveNonSuspensionFeeders will need to be adjusted. 
+
+###############################################################################################################################
+# last updated: Sept 9, 2021
+
+# UPDATE (Sept 2021): this code was created under the old PBDB download column naming system. Column names are now slightly different, and the code has been updated to reflect this.
+
+# created: Aug 29, 2014 by Judith Sclafani
+###############################################################################################################################
 
 
-#
-#
-##
+###############################################################################################################################
+################################################### NECESSARY FUNCTIONS #######################################################
+###############################################################################################################################
 
-
-## NECESSARY FUNCTIONS ##
-
-### function to remove nonsuspension feeders
-## includes only suspension feeders that do not have photosymbionts
-## does not include deposit feeders 
-## (designations according to PaleoDB, updated 5-23-14)
-
-## NOTE: this is for suspension feeders only. names of orders and classes allowed will need to be adjusted for the trophic level being evaluated
+# Remove taxa that are not classified as suspension feeders from the download
 
 RemoveNonSuspensionFeeders <- function(pbdbData) {
-    ClassesAllowed <- c("Scaphopoda", "Anthozoa", "Echinoidea", "Bivalvia", "Hyolitha", "Hyolithomorpha", "Orthothecimorpha", "Rostroconchia", "Lingulata", "Paterinata", "Chileata", "Kutorginata", "Obolellata", "Rhynchonellata", "Strophomenata", "Archaeocyatha", "Irregulares", "Regulares", "Calcarea", "Demospongea", "Heteractinida", "Hexactinellida", "Stromatoperoidea", "Gymnolaemata", "Stenolaemata", "Blastoidea")
+	ClassesAllowed <- c("Scaphopoda", "Anthozoa", "Echinoidea", "Bivalvia", "Hyolitha", "Hyolithomorpha", "Orthothecimorpha", "Rostroconchia", "Lingulata", "Paterinata", "Chileata", "Kutorginata", "Obolellata", "Rhynchonellata", "Strophomenata", "Archaeocyatha", "Irregulares", "Regulares", "Calcarea", "Demospongea", "Heteractinida", "Hexactinellida", "Stromatoperoidea", "Gymnolaemata", "Stenolaemata", "Blastoidea")
     
 	OrdersAllowed <- c("Thoracica", "Vermetidae", "Calyptraeidae", "Euomphalina", "Murchisoniina", "Coenothecalia", "Gorgonacea", "Helioporacea", "Cystiphyllida", "Heterocorallia","Stauriida", "Auloporida", "Favositida", "Halysitida", "Heliolitida", "Lichenariida", "Sarcinulida","Tetradiida", "Actiniaria")
 
@@ -52,13 +41,11 @@ RemoveNonSuspensionFeeders <- function(pbdbData) {
 	AbundanceMatrix
 }
 
-### function to generate a matrix of abundance values from a paleodb download
-## formats data with genera as columns and collections as rows
+# Generate a matrix of abundance values from a PBDB download. Formats matrix with genera as columns and collections as rows
 
 GenerateAbundanceMatrix <- function(pbdbData){
 	UniqueCollections <- as.vector(unique(pbdbData$collection_no))
 	UniqueGenera <- as.vector(unique(pbdbData$genus))
-	
 	Abundances <- matrix(data=0, nrow=length(UniqueCollections), ncol=length(UniqueGenera), dimnames=list(UniqueCollections, UniqueGenera))
 	
 	for (i in 1:nrow(pbdbData)){ 
@@ -69,12 +56,16 @@ GenerateAbundanceMatrix <- function(pbdbData){
 		Abundances[CollectionNumber,GenusNumber] <- Abundances[CollectionNumber,GenusNumber] + AbundanceValue
 	}
 		Abundances
-		
 }
-
+#################################################################################################################################
 
 
 ## CREATE MATRICES OF ABUNDANCE DATA AND COLLECTION INFO ##
+
+# set data file to read in data
+InputFile <- 'pbdbdata-occs.csv'
+pbdbData <- read.csv(file=InputFile, as.is=TRUE)
+
 # remove any data that does not have an associated time bin or environment
 pbdbData <- pbdbData[which(as.vector(pbdbData$time_bin)!=""), ]
 pbdbData <- pbdbData[which(as.vector(pbdbData$environment)!=""), ]
