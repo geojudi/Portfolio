@@ -5,11 +5,12 @@ As written, this program will run any PBDB download file with abundance data, ti
 
 NOTE BEFORE RUNNING ANALYSIS: This is set up to run all taxonomic classes and orders designated as suspension feeders. To analyze a different trophic level, the function RemoveNonSuspensionFeeders that is in the R script will need to be adjusted. 
 
-### last updated: Sept 9, 2021
+#### last updated: Sept 9, 2021
 
 UPDATE (Sept 2021): this code was created under the old PBDB download column naming system. Column names are now slightly different and the code has been updated to reflect this.
 
-### created: Aug 29, 2014 by Judith Sclafani
+#### created: Aug 29, 2014 by Judith Sclafani
+
 
 
 ## Contents of this readme: 
