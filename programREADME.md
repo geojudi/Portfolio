@@ -3,24 +3,24 @@ This folder contains all of the files needed to run superautomaticPARI.sh, a pro
 
 As written, this program will run any PBDB download file with abundance data, time bins, and environment fields. For the program to run correctly, the name of the file should be  pbdbdata-occs.csv and the column names should be unaltered from those output by the Paleobiology Database download screen. Data should be downloaded without comments (or comment columns should be removed in Excel because punctuation in the comments can offset the column alignment in the .csv file. 
 
-NOTE BEFORE RUNNING ANALYSIS: This is set up to run all taxonomic classes and orders designated as suspension feeders. To analyze a different trophic level, the function RemoveNonSuspensionFeeders that is in the R script will need to be adjusted. 
+** NOTE BEFORE RUNNING ANALYSIS: ** This is set up to run all taxonomic classes and orders designated as suspension feeders. To analyze a different trophic level, the function RemoveNonSuspensionFeeders that is in the R script will need to be adjusted. 
 
-#### last updated: Sept 9, 2021
+** last updated: Sept 9, 2021 **
 
 UPDATE (Sept 2021): this code was created under the old PBDB download column naming system. Column names are now slightly different and the code has been updated to reflect this.
 
-#### created: Aug 29, 2014 by Judith Sclafani
+** created: Aug 29, 2014 by Judith Sclafani **
 
 
 
 ## Contents of this readme: 
 
-## I. description of files in this folder 
+** I. description of files in this folder **
 
-## II. protocol for running superautomaticPARI.sh
+** II. protocol for running superautomaticPARI.sh **
 
 
-### I. Description of files in this folder:
+## I. Description of files in this folder:
 1.  PaleobioDBtoCSV.r - an R script that culls a large PaleobioDB download file to remove taxa that are not-suspension feeders and collections that contain non-numeric abundance data, transforms the culled data into an abundance matrix, and then, splits the abundance matrix by grouping collections by reference number, 10 million year time bin, and depositional environment. The outputs of this are script are: 
 	1. culledPBDB.csv - the culled version of the input matrix
 	2. Abundances.csv - an abundance matrix containing all downloaded data
@@ -39,14 +39,14 @@ UPDATE (Sept 2021): this code was created under the old PBDB download column nam
 	3. PARIabundance.r - R script to transform an abundance matrix into PARI format
 	
 	
-### II. Protocol for running superautomaticPARI.sh: 
+## II. Protocol for running superautomaticPARI.sh: 
 1. copy all of the files from TemplateFilesSuperAuto into a new folder that can hold all of the inputs and outputs of the program
 2. place within the folder a PaleobioDB download file, making sure the file name is pbdbdata-occs.csv 
 3. in a terminal window, set the working directory to the folder you created in step 1
 4. in the command line type: sh superautomaticPARI.sh 
 5. Patiently await results. It will take many hours for a large file to run.
 
-#### Alternative protocol
+### Alternative protocol
 If you are not using a PBDB data download and have your own abundance matrices, you can ignore the parts of the code that manipulate the PBDB download file. Instead the procedure should be as follows: 
 
 1. copy all of the files from TemplateFilesSuperAuto into a new folder that will hold all of the inputs and outputs of the program
