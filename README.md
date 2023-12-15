@@ -1,6 +1,6 @@
 # Judith A. Sclafani - Portfolio
 
-The follow collection contains samples of R scripts written for scientific projects. Examples have been selected to showcase my statistical and data processing capabilities.
+The following collection contains samples of R scripts written for scientific projects. Examples have been selected to showcase my statistical and data processing capabilities.
 
 ## Building taxonomic abundance matrices
 ### **SKILLS:** dataframe and data file manipulation, function writing, commenting for publication
