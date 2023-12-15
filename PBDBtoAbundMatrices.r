@@ -6,8 +6,11 @@
 
 # Requirements: The download file must contain the abundance, time bins, and environment fields as collections are split by collection number, time, and environment. For the program to run correctly, the name of the file should be  pbdbdata-occs.csv and the column names should be unaltered from those output by the PBDB. Data should be downloaded without comments or comment columns should be removed in Excel because punctuation in the comments can offset the column alignment in the .csv file. 
 
-# Input: a .csv file downloaded from the PBDB. The file name is set as pbdbdata-occs.csv. If a different file name is used, change it here
-InputFile <- 'pbdbdata-occs.csv'
+# Input: a .csv file downloaded from the PBDB that contains all collections for analysis.
+url <- 'https://raw.githubusercontent.com/geojudi/Portfolio/master/data/culledPBDB.csv.zip'
+download <- download.file(url,'pbdbdata.zip')
+unzip('pbdbdata.zip')
+InputFile <- 'culledPBDB.csv'
 
 # Outputs: multiple .csv files
 ####### 1. an abundance matrix for each collection in the input file. The number of output files is determined by number of collections in the downloaded file and the number of time bins and depositional environments in each unique collection.
