@@ -8,6 +8,11 @@ This script is a part of a larger project to evaluate whether changes in abundan
 
 Included here is the R script to perform the first part of this workflow, from culling the database download to writing the abundance matrices [PBDBtoAbundMatrices.r](/PBDBtoAbundMatrices.r)
 
+## Comparing extinction and origination data to random expectation
+### **SKILLS:** ordination, resampling
+This script is a part of my dissertation research in which I quantified morphological change at a mass extinction event. My goal with this part of the project was to ordinate morphological character data to determine how variability within a phylogenetic tree changed across the extinction. I then bootstrapped the centroid of ordination space (morphospace) to determine 1) if extinct taxa in pre-extinction morphospace were randomly distributed (they were) and 2) if newly originated taxa in post-extinction morphospace were randomly distributed (they weren't). 
+
+Included here is the script that I used to perform these analyses [RandomExtinctionTest.r](RandomExtinctionTest.r)
 
 ## Body size evolution
 ### **SKILLS:** statistical model fitting, ggplot
