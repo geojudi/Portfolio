@@ -5,7 +5,7 @@
 # This code calculates the change in mean and variance of body size over time for an order and fits the change in mean to several common evolutionary models.
 
 # Input: a .csv containing body size data for genera within orders
-InputFile <- 'AllBrachsCleaned.csv'
+InputFile <- 'https://raw.githubusercontent.com/geojudi/Portfolio/master/data/AllBrachsCleaned.csv'
 
 # Output: a list containing, for each order, Akaike weights comparing strength of support for each model
 #########################################################################################
