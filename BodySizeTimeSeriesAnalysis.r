@@ -9,10 +9,6 @@ InputFile <- 'AllBrachsCleaned.csv'
 
 # Output: a list containing, for each order, Akaike weights comparing strength of support for each model
 #########################################################################################
-# last updated: October 2023
-
-# created: January 2023 by Judith Sclafani
-#########################################################################################
 
 
 
