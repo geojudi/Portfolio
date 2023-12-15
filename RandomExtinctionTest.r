@@ -5,9 +5,9 @@
 
 # Input: two data tables
 #### 1. a morphology character matrix - containing trait designations for taxa in a phylogenetic tree
-MorphologyFile <- 'taxon_Morph.txt'
+MorphologyFile <- 'https://raw.githubusercontent.com/geojudi/Portfolio/master/data/Strophid_M_STAGE.txt'
 #### 2. a presence absence matrix where rows are taxa, columns are geologic stages, and cells are filled with 1 (present) or 0 (absent)
-StagesFile <- 'taxon_Dates.txt'
+StagesFile <- 'https://raw.githubusercontent.com/geojudi/Portfolio/master/data/Strophid_D_STAGE.txt'
 
 # Output: results of the ordination and bootstrap analyses
 #############################################################################################
