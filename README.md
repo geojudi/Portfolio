@@ -15,4 +15,4 @@ Included here is the R script to perform the first part of this workflow, from c
 ### **SKILLS:** statistical model fitting, ggplot
 This script contains code that I recently developed to evaluate brachiopod body size evolution over geologic time. Specifically, the goal was to determine, for each order, which evolutionary model best explains change in size. To do this, I transformed the raw data into an object of a class required by the model-fitting package. Then, I automated fitting and comparing multiple models for all orders. I have also included an example of code to plot the body size data using ggplot.
 
-Included here is an R script that contains this procedure 
+Included here is an R script that contains this procedure [BodySizeTimeSeriesAnalysis.r](BodySizeTimeSeriesAnalysis.r)
